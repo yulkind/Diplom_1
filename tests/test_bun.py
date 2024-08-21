@@ -4,46 +4,41 @@ from praktikum.bun import Bun
 
 
 class TestBun:
-    @pytest.mark.parametrize("name, price", [
-        ('Флюоресцентная булка R2-D3', 988),
-        ('Краторная булка N-200i', 1255), ])
-    def test_get_name(self, name, price):
-        bun = Bun(name, price)
+    price = 988
+    name = 'Флюоресцентная булка R2-D3'
+
+    @pytest.mark.parametrize("name", ['Флюоресцентная булка R2-D3', '', 123, 'N-i'])
+    def test_get_name(self, name):
+        bun = Bun(name, self.price)
         actual_result = bun.get_name()
         assert actual_result == name
 
-    @pytest.mark.parametrize("name, price", [
-        ('Флюоресцентная булка R2-D3', 988),
-        ('Краторная булка N-200i', 1255), ])
-    def test_get_price(self, name, price):
-        bun = Bun(name, price)
+    @pytest.mark.parametrize("price", [988, (-1), 0, 'bun'])
+    def test_get_price(self, price):
+        bun = Bun(self.name, price)
         actual_result = bun.get_price()
         assert actual_result == price
 
     def test_empty_name(self):
         name = ''
-        price = 988
-        bun = Bun(name, price)
+        bun = Bun(name, self.price)
         actual_result = bun.get_name()
         assert actual_result == ''
 
     def test_zero_price(self):
-        name = 'Краторная булка N-200i'
         price = 0
-        bun = Bun(name, price)
+        bun = Bun(self.name, price)
         actual_result = bun.get_price()
         assert actual_result == 0
 
     def test_invalid_price_type(self):
-        name = 'Краторная булка N-200i'
         price = 'string'
-        bun = Bun(name, price)
+        bun = Bun(self.name, price)
         actual_result = bun.get_price()
         assert actual_result == 'string'
 
-    def test_negative(self):
-        name = 'Краторная булка N-200i'
+    def test_negative_price(self):
         price = -988
-        bun = Bun(name, price)
+        bun = Bun(self.name, price)
         actual_result = bun.get_price()
         assert actual_result == -988
